@@ -8,7 +8,7 @@
     "dev": "ts-node ./bin/index.ts"
   },
   "bin": {
-    "gql": "./bin/index.js"
+    "gql": "./dist/bin/index.js"
   },
   "keywords": [],
   "author": "",
