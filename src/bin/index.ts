@@ -9,7 +9,7 @@ program
   .option('-o, --output <char>', 'path of the project')
   .option('-b, --build', 'build the graphql api based on tsc types and routes')
   .option('-r, --router <char>', 'path to the routers-folder')
-  .option('-i, --interface <char>', 'path to the interfaces folder')
+  .option('-t, --interface <char>', 'path to the interfaces folder')
 
 program.parse()
 
