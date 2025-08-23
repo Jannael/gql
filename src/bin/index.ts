@@ -7,6 +7,9 @@ import { exec } from 'node:child_process'
 program
   .option('-i, --init', 'creates a template in the current path')
   .option('-o, --output <char>', 'path of the project')
+  .option('-b, --build', 'build the graphql api based on tsc types and routes')
+  .option('-r, --router <char>', 'path to the routers-folder')
+  .option('-i, --interface <char>', 'path to the interfaces folder')
 
 program.parse()
 
