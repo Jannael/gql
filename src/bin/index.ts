@@ -13,7 +13,7 @@ program.parse()
 const options = program.opts()
 
 if (options.init === true) {
-  const destFolder = options.output ?? __dirname
+  const destFolder = options.output ?? process.cwd()
   const initProjectCommand = `cd "${path.join(destFolder, 'project')}" && pnpm i`
 
   copyFolderSync(path.join('src', 'templates', 'project-graphql'), destFolder)
