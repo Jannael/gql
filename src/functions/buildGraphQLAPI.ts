@@ -1,4 +1,4 @@
-function convertTsInterfaceToGraphQLType (tsInterface: string): string {
+export function convertTsInterfaceToGraphQLType (tsInterface: string): string {
   tsInterface = tsInterface.replace('interface', 'type')
   tsInterface = tsInterface.replace('number', ' Int')
 
@@ -17,15 +17,3 @@ function convertTsInterfaceToGraphQLType (tsInterface: string): string {
   tsInterface = tsInterface.replace('?', '')
   return tsInterface
 }
-
-const tsInterface = `
-interface User {
-  id: number
-  name: string
-  email?: string
-  tags: string[]
-  isActive: boolean
-}
-`
-
-console.log(convertTsInterfaceToGraphQLType(tsInterface))
