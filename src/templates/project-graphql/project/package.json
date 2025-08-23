@@ -1,14 +1,9 @@
 {
-  "name": "gql",
+  "name": "graphql-project",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node ./bin/index.ts"
-  },
-  "bin": {
-    "gql": "./dist/bin/index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -19,12 +14,10 @@
     "@as-integrations/express5": "1.1.2",
     "@graphql-tools/load-files": "7.0.1",
     "@graphql-tools/merge": "9.1.1",
-    "commander": "14.0.0",
     "express": "5.1.0"
   },
   "devDependencies": {
     "@types/express": "5.0.3",
-    "@types/node": "24.3.0",
     "ts-standard": "12.0.2"
   }
 }
