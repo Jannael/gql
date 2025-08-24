@@ -1,3 +1,16 @@
+import fs from 'node:fs'
+import path from 'node:path'
+
+export function build (projectPath: string = process.cwd(),
+  routerPath: string = path.join(process.cwd(), 'route'),
+  intefacePath: string = path.join(process.cwd(), 'route')): void {
+  //
+  const graphQLPath = path.join(projectPath, 'graphQL')
+  if (!fs.existsSync(graphQLPath)) {
+    fs.mkdirSync(graphQLPath, { recursive: true })
+  }
+}
+
 export function convertTsInterfaceToGraphQLType (tsInterface: string): string {
   tsInterface = tsInterface.replaceAll('export', '')
   tsInterface = tsInterface.replaceAll('interface', 'type')
