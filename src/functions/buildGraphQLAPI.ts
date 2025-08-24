@@ -58,10 +58,12 @@ export function convertRouterToGraphQLTypes (router: string, controller: string)
 
     const typeNameRexArray = m[0].match(/'.+'/) as RegExpMatchArray
     const controllerFunctionRexArray = m[0].match(/\w+\.\w+\)$/) as RegExpMatchArray
-    const typeName = typeNameRexArray [0].replace(/('|\/)/g, '')
+    const typeName = typeNameRexArray[0].replace(/('|\/)/g, '')
     const controllerFunc = controllerFunctionRexArray[0].replace(/(\w+\.|\))/g, '')
+    const returnTypeRegex = new RegExp(`${controllerFunc}: .+: \\w+ \\{`, 'g')
+    const returntype = controller.match(returnTypeRegex) as RegExpMatchArray
+    console.log(returntype[0])
 
-    console.log(controllerFunc)
     if (isQuery) {
       queryRoutes += `  ${m[0]}\n`
       return
@@ -157,4 +159,4 @@ export const ThreadController = {
   }
 }`
 
-console.log(convertRouterToGraphQLTypes(router, controller))
+convertRouterToGraphQLTypes(router, controller)
