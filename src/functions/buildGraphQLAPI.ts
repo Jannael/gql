@@ -1,19 +1,32 @@
 export function convertTsInterfaceToGraphQLType (tsInterface: string): string {
-  tsInterface = tsInterface.replace('interface', 'type')
-  tsInterface = tsInterface.replace('number', ' Int')
+  tsInterface = tsInterface.replaceAll('export', '')
+  tsInterface = tsInterface.replaceAll('interface', 'type')
+  tsInterface = tsInterface.replaceAll('number', ' Int')
 
-  tsInterface = tsInterface.replace(/ string/g, ' String')
-  tsInterface = tsInterface.replace(/ boolean/g, ' Boolean')
+  tsInterface = tsInterface.replaceAll(/ string/g, ' String')
+  tsInterface = tsInterface.replaceAll(/ boolean/g, ' Boolean')
 
   // now lets check for arrays we want to change string[] => [string]
   tsInterface = tsInterface.replace(/\b(\w+)\[\]/g, (_, type: string) => `[${type}]`)
 
   // field?: string => field: string!
-  tsInterface.matchAll(/\b\w+:\s*\[?\w+\]?/g)
-    .forEach(m => {
-      tsInterface = tsInterface.replace(m[0], `${m[0]}!`)
-    })
+  let result = ''
+  let lastIndex = 0
 
-  tsInterface = tsInterface.replace('?', '')
+  for (const match of tsInterface.matchAll(/\b\w+:\s*\[?\w+\]?/g)) {
+    const start = match.index
+    const end = start + match[0].length
+
+    // Añade el contenido previo al match
+    result += tsInterface.slice(lastIndex, end) + '!'
+    lastIndex = end
+  }
+
+  // Añade el resto del string
+  result += tsInterface.slice(lastIndex)
+  tsInterface = result
+
+  tsInterface = tsInterface.replace(/\b(\w+)\s*\?:/g, '$1:')
+
   return tsInterface
 }

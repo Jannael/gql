@@ -2,26 +2,33 @@ import { convertTsInterfaceToGraphQLType } from '../../src/functions/buildGraphQ
 
 describe('function', () => {
   test('convertTsInterfaceToGraphQLType', () => {
-    const tsInterface = `
-      interface User {
-        id: number
-        name: string
-        email?: string
-        tags: string[]
-        isActive: boolean
+    const cases = [
+      {
+        input: `
+          interface User {
+            id: number
+            name: string
+            email?: string
+            tags: string[]
+            isActive: boolean
+          }
+        `,
+        expect: `
+          type User {
+            id:  Int!
+            name: String!
+            email: String
+            tags: [String]!
+            isActive: Boolean!
+          }
+        `
       }
-    `
+    ]
 
-    const result = convertTsInterfaceToGraphQLType(tsInterface)
+    for (const inputExpect of cases) {
+      const result = convertTsInterfaceToGraphQLType(inputExpect.input)
 
-    expect(result).toBe(`
-      type User {
-        id:  Int!
-        name: String!
-        email: String
-        tags: [String]!
-        isActive: Boolean!
-      }
-    `)
+      expect(result).toBe(inputExpect.expect)
+    }
   })
 })
