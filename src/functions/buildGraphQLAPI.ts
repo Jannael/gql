@@ -45,11 +45,19 @@ export function convertTsInterfaceToGraphQLType (tsInterface: string): string {
 }
 
 export function convertRouterToGraphQLTypes (router: string): string {
-  let routes = ''
+  let queryRoutes = 'type Query {\n'
+  let mutationRoutes = 'type Mutation {\n'
   const match = router.matchAll(/\w+\.\w+\(.*\)/g)
-  match.forEach(m => { routes += `${m[0]}\n` })
 
-  router = routes
+  match.forEach(m => {
+    const queryRegex = /\w+\.get\(.*\)/g
+    if (queryRegex.test(m[0])) queryRoutes += `  ${m[0]}\n`
+    else mutationRoutes += `  ${m[0]}\n`
+  })
+
+  mutationRoutes += '}'
+  queryRoutes += '}'
+  router = mutationRoutes
   return router
 }
 
