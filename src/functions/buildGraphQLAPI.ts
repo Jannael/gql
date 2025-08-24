@@ -1,5 +1,4 @@
 import fs from 'node:fs'
-import { type } from 'node:os'
 import path from 'node:path'
 
 export function build (projectPath: string = process.cwd(),
@@ -64,12 +63,14 @@ export function convertRouterToGraphQLTypes (router: string, controller: string)
     const returnTypeRegex = new RegExp(`${controllerFunc}: .+: \\w+ \\{`, 'g')
     const returntypeRegexArray = controller.match(returnTypeRegex) as RegExpMatchArray
     const returnType = returntypeRegexArray[0].replace(/(\w+: .+:|\{)/g, '')
-    console.log(returnType)
+
+    const graphQLType = '  ' + typeName + ': ' + returnType + '\n'
+
     if (isQuery) {
-      queryRoutes += `  ${m[0]}\n`
+      queryRoutes += graphQLType
       return
     }
-    mutationRoutes += `  ${m[0]}\n`
+    mutationRoutes += graphQLType
   })
 
   mutationRoutes += '}'
@@ -85,10 +86,10 @@ import { UserLogin } from '../middlewares/UserLogin'
 
 export const ThreadRouter = Router()
 
-ThreadRouter.get('/getAll', ThreadController.getAll)
-ThreadRouter.post('/create', UserLogin, ThreadController.createThread)
-ThreadRouter.patch('/update', UserLogin, ThreadController.update)
-ThreadRouter.delete('/delete', UserLogin, ThreadController.delete)`
+ThreadRouter.get('/getAllThread', ThreadController.getAll)
+ThreadRouter.post('/createThread', UserLogin, ThreadController.createThread)
+ThreadRouter.patch('/updateThread', UserLogin, ThreadController.update)
+ThreadRouter.delete('/deleteThread', UserLogin, ThreadController.delete)`
 
 const controller = `
 import { Request, Response } from 'express'
@@ -160,4 +161,4 @@ export const ThreadController = {
   }
 }`
 
-convertRouterToGraphQLTypes(router, controller)
+console.log(convertRouterToGraphQLTypes(router, controller))
