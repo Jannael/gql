@@ -43,3 +43,25 @@ export function convertTsInterfaceToGraphQLType (tsInterface: string): string {
 
   return tsInterface
 }
+
+export function convertRouterToGraphQLTypes (router: string): string {
+  let routes = ''
+  const match = router.matchAll(/\w+\.\w+\(.*\)/g)
+  match.forEach(m => { routes += `${m[0]}\n` })
+
+  router = routes
+  return router
+}
+
+const router = `import { Router } from 'express'
+import { ThreadController } from '../controllers/thread'
+import { UserLogin } from '../middlewares/UserLogin'
+
+export const ThreadRouter = Router()
+
+ThreadRouter.get('/', ThreadController.getAll)
+ThreadRouter.post('/', UserLogin, ThreadController.createThread)
+ThreadRouter.patch('/', UserLogin, ThreadController.update)
+ThreadRouter.delete('/', UserLogin, ThreadController.delete)`
+
+console.log(convertRouterToGraphQLTypes(router))
