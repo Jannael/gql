@@ -55,16 +55,16 @@ export function convertRouterToGraphQLTypes (router: string, controller: string)
 
     m[0] = m[0].replace(/\w+.\w+\(/g, '')
 
-    const typeNameRexArray = m[0].match(/'.+'/) as RegExpMatchArray
+    const fieldNameRexArray = m[0].match(/'.+'/) as RegExpMatchArray
     const controllerFunctionRexArray = m[0].match(/\w+\.\w+\)$/) as RegExpMatchArray
 
-    const typeName = typeNameRexArray[0].replace(/('|\/)/g, '')
+    const fieldName = fieldNameRexArray[0].replace(/('|\/)/g, '')
     const controllerFunc = controllerFunctionRexArray[0].replace(/(\w+\.|\))/g, '')
     const returnTypeRegex = new RegExp(`${controllerFunc}: .+: \\w+ \\{`, 'g')
     const returntypeRegexArray = controller.match(returnTypeRegex) as RegExpMatchArray
     const returnType = returntypeRegexArray[0].replace(/(\w+: .+:|\{)/g, '')
 
-    const graphQLType = '  ' + typeName + ': ' + returnType + '\n'
+    const graphQLType = '  ' + fieldName + ': ' + returnType + '\n'
 
     if (isQuery) {
       queryRoutes += graphQLType
